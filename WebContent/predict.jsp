@@ -16,12 +16,12 @@
 	<header>
         <section>
             <div>
-				<h2>Chào mừng bạn đến với hệ thống dự đoán hình ảnh</h2>
+				<h2>Chào mừng bạn đến với hệ thống phân loại hình ảnh</h2>
             </div>
         </section>
         <section>
             <div class="history">
-                <a href="">Lịch sử dự đoán</a>
+                <a href="ListPredictServlet">Lịch sử dự đoán</a>
             </div>
             <div class="user">
                 <p>Xin chào ${username}</p>
@@ -44,7 +44,8 @@
 	        <input type="submit" value="Predict" class="btn btn-danger" name="predict">
 	
 	        <div class="text-box">
-	            <h5>Kết quả dự đoán: ${result}</h5>
+	            <h4 style="text-align: center;">Kết quả dự đoán: ${imageClass}</h4>
+	            <h4 style="text-align: center;">Tỉ lệ dự đoán: ${confidence} %</h4>
 	        </div>
 	    </main>
 	</form>
@@ -55,6 +56,23 @@
     </footer>
 
     <script>
+	    window.addEventListener('load', (e) => {
+	  	  const imageData = localStorage.getItem('imageData');
+	  	  if (imageData) {
+	  	    const previewImage = document.getElementById('preview-image');
+	  	    previewImage.src = imageData;
+	  	  }
+	  	});
+	    const inputImage = document.getElementById("input_image");
+	    inputImage.addEventListener('change', (e) => {
+	      const file = e.target.files[0];
+	      const reader = new FileReader();
+	      reader.onload = function (event) {
+	        localStorage.setItem('imageData', event.target.result);
+	      };
+	      reader.readAsDataURL(file);
+	    });
+	    
 	    const input = document.getElementById('input_image');
 	    const previewImage = document.getElementById('preview-image');
 	    input.addEventListener('change', function(event) {

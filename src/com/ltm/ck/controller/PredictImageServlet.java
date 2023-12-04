@@ -26,9 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.sql.DataSource;
 
-import org.json.JSONObject;
 
 import com.ltm.ck.dao.PredictDao;
+import com.ltm.ck.service.PredictService;
 
 
 @WebServlet("/PredictImageServlet")
@@ -51,50 +51,54 @@ public class PredictImageServlet extends HttpServlet {
 		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Part imagePart = request.getPart("imagefile");
-		String imageFileName = imagePart.getSubmittedFileName();
+		PredictService predictService = new PredictService(request, response, dataSource);
+		predictService.predict();
 		
-		String uploadPath = "C:/Java/LTM_CK/WebContent/images/"+imageFileName;
 		
-        try {
-			FileOutputStream fos = new FileOutputStream(uploadPath);
-			InputStream is = imagePart.getInputStream();
-			byte[] data = new byte[is.available()];
-			is.read(data);
-			fos.write(data);
-			fos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        try {
-            // Tạo URL của Flask API
-            URL url = new URL("http://127.0.0.1:3000/predict");
-
-            // Mở kết nối HTTP
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            // Thiết lập phương thức POST và thiết lập đặc điểm của kết nối
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "image/png"); // Đặt loại nội dung cho ảnh JPEG hoặc thay đổi tùy thuộc vào loại ảnh bạn sử dụng
-            connection.setDoOutput(true);
-
-            // Đọc dữ liệu ảnh từ file (hoặc từ InputStream nếu bạn có nó từ nguồn khác)
-            Path imagePath = Paths.get(uploadPath); // Đặt đường dẫn đến file ảnh của bạn
-            byte[] imageBytes = Files.readAllBytes(imagePath);
-
-            // Gửi dữ liệu ảnh đến Flask API
-            try (OutputStream os = connection.getOutputStream()) {
-                os.write(imageBytes);
-            }
-
-            // Đọc phản hồi từ Flask API (nếu cần)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
-                StringBuilder responseBuilder = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    responseBuilder.append(responseLine.trim());
-                }
-                System.out.println("Response from Flask API: " + responseBuilder.toString());
+//		Part imagePart = request.getPart("imagefile");
+//		String imageFileName = imagePart.getSubmittedFileName();
+//		
+//		String uploadPath = "C:/Java/LTM_CK/WebContent/images/"+imageFileName;
+//		
+//        try {
+//			FileOutputStream fos = new FileOutputStream(uploadPath);
+//			InputStream is = imagePart.getInputStream();
+//			byte[] data = new byte[is.available()];
+//			is.read(data);
+//			fos.write(data);
+//			fos.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//        try {
+//            // Tạo URL của Flask API
+//            URL url = new URL("http://127.0.0.1:3000/predict");
+//
+//            // Mở kết nối HTTP
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//
+//            // Thiết lập phương thức POST và thiết lập đặc điểm của kết nối
+//            connection.setRequestMethod("POST");
+//            connection.setRequestProperty("Content-Type", "image/png"); // Đặt loại nội dung cho ảnh JPEG hoặc thay đổi tùy thuộc vào loại ảnh bạn sử dụng
+//            connection.setDoOutput(true);
+//
+//            // Đọc dữ liệu ảnh từ file (hoặc từ InputStream nếu bạn có nó từ nguồn khác)
+//            Path imagePath = Paths.get(uploadPath); // Đặt đường dẫn đến file ảnh của bạn
+//            byte[] imageBytes = Files.readAllBytes(imagePath);
+//
+//            // Gửi dữ liệu ảnh đến Flask API
+//            try (OutputStream os = connection.getOutputStream()) {
+//                os.write(imageBytes);
+//            }
+//
+//            // Đọc phản hồi từ Flask API (nếu cần)
+//            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
+//                StringBuilder responseBuilder = new StringBuilder();
+//                String responseLine;
+//                while ((responseLine = br.readLine()) != null) {
+//                    responseBuilder.append(responseLine.trim());
+//                }
+//                System.out.println("Response from Flask API: " + responseBuilder.toString());
                 
 
                 
@@ -107,17 +111,17 @@ public class PredictImageServlet extends HttpServlet {
 //                System.out.println(imageClass);
 //                System.out.println(confidence);
                 
-                String list_page = "result.jsp";
-                String result = responseBuilder.toString();
-                request.getSession().setAttribute("result", result);
-                RequestDispatcher dispatcher = request.getRequestDispatcher(list_page);
-                dispatcher.forward(request, response);
-            }
-            connection.disconnect();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
+//                String list_page = "result.jsp";
+//                String result = responseBuilder.toString();
+//                request.getSession().setAttribute("result", result);
+//                RequestDispatcher dispatcher = request.getRequestDispatcher(list_page);
+//                dispatcher.forward(request, response);
+//            }
+//            connection.disconnect();
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        
     }
 }

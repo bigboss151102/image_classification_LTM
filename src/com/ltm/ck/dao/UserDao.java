@@ -54,4 +54,28 @@ public class UserDao {
 			close(myConn, myStmt, myRs);
 		}
 	}
+	
+	public int getIdUser(String username, String password) throws SQLException {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		int id_user;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "SELECT id_user FROM user WHERE username=? AND password=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, username);
+			myStmt.setString(2, password);
+			myRs = myStmt.executeQuery();
+			if(myRs.next()) {
+				id_user = myRs.getInt(1);
+				return id_user;
+			}
+			else {
+				return -1;
+			}
+		} finally {
+			close(myConn, myStmt, myRs);
+		}
+	}		
 }

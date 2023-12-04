@@ -30,12 +30,17 @@ public class UserService {
 		String password = request.getParameter("password");
 		
 		boolean loginResult = userDao.checkLogin(username, password);
-		
+		int id_user = userDao.getIdUser(username, password);
+		System.out.println(id_user);
 		if(loginResult) {
 			request.getSession().setAttribute("username", username);
+			request.getSession().setAttribute("id_user", id_user);
 			String page_predict = "predict.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(page_predict);
-			dispatcher.forward(request, response);
+			String page_list = "list.jsp";
+			RequestDispatcher dispatcher_predict = request.getRequestDispatcher(page_predict);
+			RequestDispatcher dispatcher_list = request.getRequestDispatcher(page_list);
+			dispatcher_predict.forward(request, response);
+			dispatcher_list.forward(request, response);
 		}else {
 			String message = "Đăng nhập thất bại. Vui lòng thử lại !";
 			request.setAttribute("message", message);
