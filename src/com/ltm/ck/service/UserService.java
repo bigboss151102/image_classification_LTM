@@ -43,9 +43,6 @@ public class UserService {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page_login);
 			dispatcher.forward(request, response);
 		}
-			
-			
-		
 	}
 		
 }

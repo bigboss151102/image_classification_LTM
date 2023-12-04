@@ -16,35 +16,35 @@
 	<header>
         <section>
             <div>
-				<h2>Hệ thống dự đoán hình ảnh</h2>
+				<h2>Chào mừng bạn đến với hệ thống dự đoán hình ảnh</h2>
             </div>
         </section>
         <section>
             <div class="history">
-                <a href="">History</a>
+                <a href="">Lịch sử dự đoán</a>
             </div>
             <div class="user">
-                <p>Hello ${username}</p>
+                <p>Xin chào ${username}</p>
             </div>
             <div class="user">
-                <a href="UserLogoutServlet">Logout    <i class="fas fa-sign-out-alt"></i></a>
+                <a href="UserLogoutServlet">Đăng xuất <i class="fas fa-sign-out-alt"></i></a>
             </div>
         </section>
     </header>
 	
-	<form action="">
+	<form action="PredictImageServlet" method="POST" enctype="multipart/form-data">
 	    <main>
 	        <div class="image-box">
 	            <img style="height: 470px"" id="preview-image" src="" alt="input image">
 				<div class="input-group">
-				  <input type="file" class="form-control" id="input_image" name="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+				  <input type="file" class="form-control" id="input_image" name="imagefile" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
 				</div>
 	        </div>
 			
 	        <input type="submit" value="Predict" class="btn btn-danger" name="predict">
 	
 	        <div class="text-box">
-	            <span>TEXT</span>
+	            <h5>Kết quả dự đoán: ${result}</h5>
 	        </div>
 	    </main>
 	</form>
