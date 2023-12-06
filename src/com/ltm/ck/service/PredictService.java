@@ -16,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
@@ -111,6 +113,24 @@ public class PredictService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+		
+	}
+
+	public void listPredict() throws SQLException, ServletException, IOException {
+
+		int user_id = (int) request.getSession().getAttribute("id_user");
+		System.out.println(user_id);
+		List<Predict> predicts = predictDao.getAllPredict(user_id);
+		request.setAttribute("predicts", predicts);
+		String list_page = "list_predict.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(list_page);
+		dispatcher.forward(request, response);
+	}
+
+	public void deletePredict() throws SQLException, ServletException, IOException {
+		Integer predict_id = Integer.parseInt(request.getParameter("predict_id"));
+		predictDao.deletePredict(predict_id);
+		listPredict();
 		
 	}
 	

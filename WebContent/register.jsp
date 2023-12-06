@@ -19,9 +19,9 @@
 	<br>
 	<div class="login-form">
 
-	    <form action="LoginServlet" method="post">
-	        <h2 class="text-center">Đăng Nhập</h2>   
-	       	<c:if test="${message != null}">
+	    <form action="AddUserServlet" method="POST">
+	        <h2 class="text-center">Đăng Kí</h2>   
+   	       	<c:if test="${message != null}">
 				<div class="row">
 					<div class="col text-center"><h4 class="message">${message}</h4></div>
 				</div>
@@ -45,15 +45,31 @@
 	                </div>
 	                <input type="password" class="form-control" name="password" placeholder="Password" required="required">				
 	            </div>
-	        </div>        
+	        </div> 
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <input type="password" class="form-control" name="password_new_again" placeholder="Xác nhận mật khẩu" required="required">
+                </div>
+            </div>   
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <input type="email" class="form-control" name="email" placeholder="Vui lòng nhập email" required="required">
+                </div>
+            </div>    
 	        <div class="form-group">
-	            <button type="submit" class="btn btn-primary login-btn btn-block">Đăng nhập</button>
+	            <button type="submit" class="btn btn-primary login-btn btn-block">Đăng ký</button>
 	        </div>
-            <div class="clearfix">
-             	<a href="AddUserServlet" class="float-right">Đăng ký tài khoản </a>
-         	</div>
 	    </form>
-
 	</div>
 	<br>
 	<br>

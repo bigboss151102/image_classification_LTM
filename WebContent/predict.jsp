@@ -35,7 +35,7 @@
 	<form action="PredictImageServlet" method="POST" enctype="multipart/form-data">
 	    <main>
 	        <div class="image-box">
-	            <img style="height: 470px"" id="preview-image" src="" alt="input image">
+	            <img style="height: 470px"" id="preview-image" src="" alt="Vui lòng chọn một hình ảnh">
 				<div class="input-group">
 				  <input type="file" class="form-control" id="input_image" name="imagefile" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
 				</div>
@@ -44,8 +44,24 @@
 	        <input type="submit" value="Predict" class="btn btn-danger" name="predict">
 	
 	        <div class="text-box">
-	            <h4 style="text-align: center;">Kết quả dự đoán: ${imageClass}</h4>
-	            <h4 style="text-align: center;">Tỉ lệ dự đoán: ${confidence} %</h4>
+	        	<c:choose>
+	        		<c:when test="${imageClass != null}">
+     					<h4 style="height: 200px;">Kết quả dự đoán: ${imageClass}</h4>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<h4 style="height: 200px;">Kết quả dự đoán:</h4>
+	        		</c:otherwise>
+	        	</c:choose>
+		        <c:choose>
+	        		<c:when test="${confidence != null}">
+     					<h4 style="height: 200px;">Tỉ lệ dự đoán: ${confidence} %</h4>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<h4 style="height: 200px;">Tỉ lệ dự đoán: %</h4>
+	        		</c:otherwise>
+	        	</c:choose>
+
+    					
 	        </div>
 	    </main>
 	</form>

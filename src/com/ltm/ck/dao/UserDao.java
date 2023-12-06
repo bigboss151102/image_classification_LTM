@@ -8,6 +8,8 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import com.ltm.ck.entity.User;
+
 public class UserDao {
 	private DataSource dataSource;
 	
@@ -77,5 +79,27 @@ public class UserDao {
 		} finally {
 			close(myConn, myStmt, myRs);
 		}
+	}
+
+	public void addUser(User theUser) throws SQLException {
+		Connection myCnn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myCnn = dataSource.getConnection();
+			String sql = "INSERT INTO user"
+					+"(username, password, email)"
+					+"values(?, ?, ?)";
+			
+			myStmt = myCnn.prepareStatement(sql);
+			
+			myStmt.setString(1, theUser.getUsername());
+			myStmt.setString(2, theUser.getPassword());
+			myStmt.setString(3, theUser.getEmail());
+			
+			myStmt.execute();
+		} finally {
+			close(myCnn, myStmt, null);
+		}
+		
 	}		
 }

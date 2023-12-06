@@ -21,7 +21,7 @@
         </section>
         <section>
             <div class="history">
-                <a href="#" onclick="goBack()">Quay lại trang trước</a>
+                <a href="#" onclick="goBack()">Quay lại</a>
             </div>
             <div class="user">
                 <p>Xin chào ${username}</p>
@@ -33,7 +33,7 @@
     </header>
 	<br>
 	<br>
-	<h4 style="text-align: center;">Danh sách dự đoán của bạn</h4>
+	<h4 style="text-align: center;">Lịch sử dự đoán của bạn</h4>
 		<table class="table">
 		  <thead>
 		    <tr>
@@ -42,32 +42,27 @@
 		      <th scope="col">Rate Predict</th>
 		      <th scope="col">Image</th>
 		      <th scope="col">Date Predict</th>
+		      <th scope="col">Action</th>
 		    </tr>
 		  </thead>
 		  <tbody class="table-group-divider">
-		    <tr>
-		      <th scope="row">1</th>
-		      <td>Mark</td>
-		      <td>Otto</td>
-		      <td>@mdo</td>
-		      <td>@mdo</td>
-		    </tr>
-		    <tr>
-		      <th scope="row">2</th>
-		      <td>Jacob</td>
-		      <td>Thornton</td>
-		      <td>@fat</td>
-		      <td>@mdo</td>
-		    </tr>
-		    <tr>
-		      <th scope="row">3</th>
-		      <td colspan="2">Larry the Bird</td>
-		      <td>@twitter</td>
-		      <td>@mdo</td>
-		    </tr>
+		  	<c:forEach var="tempPredict" items="${predicts}">
+			    <tr>
+			      <th>${tempPredict.id_predict }</th>
+			      <td>${tempPredict.result}</td>
+			      <td>${tempPredict.rate_predict }</td>
+			      <td>
+			      	<img src="data:image/jpg;base64,${tempPredict.base64Image}" width="84" height="100">
+			      </td>
+			      <td>${tempPredict.date_predict }</td>
+			      <td>
+			      	<a href="delete_predict?predict_id=${tempPredict.id_predict }" onclick="if (!(confirm('Bạn có muốn xoá dự đoán này không ?'))) return false" class="btn btn-danger">Delete</a>
+			      </td>
+			    </tr>
+		  	</c:forEach>
+
 		  </tbody>
 		</table>
-	
     <footer>
     	<h4>&copy; Hoang Cong Trong - 102210333</h4>
     </footer>

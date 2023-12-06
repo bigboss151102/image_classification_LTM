@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import com.ltm.ck.dao.UserDao;
+import com.ltm.ck.entity.User;
 
 public class UserService {
 	private HttpServletRequest request;
@@ -24,7 +25,7 @@ public class UserService {
 		this.userDao = new UserDao(theDataSource);
 	}
 
-	public void checkLogin() throws ServletException, IOException, SQLException {
+	public void login() throws ServletException, IOException, SQLException {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -48,6 +49,30 @@ public class UserService {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page_login);
 			dispatcher.forward(request, response);
 		}
+	}
+
+	public void registerUser() throws IOException, ServletException, SQLException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String password_again = request.getParameter("password_new_again");
+		String email = request.getParameter("email");
+		
+		if(password != null && password.equals(password_again)) {
+			User theUser = new User(username, password_again, email);
+			userDao.addUser(theUser);
+			String message = "Đăng ký thành công !";
+			String page_login = "login.jsp";
+			request.setAttribute("message", message);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(page_login);
+			dispatcher.forward(request, response);
+		}else {
+			String message = "Mật khẩu không khớp !";
+			String page_register = "register.jsp";
+			request.setAttribute("message", message);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(page_register);
+			dispatcher.forward(request, response);
+		}
+		
 	}
 		
 }

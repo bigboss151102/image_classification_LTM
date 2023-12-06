@@ -14,9 +14,8 @@ import javax.sql.DataSource;
 import com.ltm.ck.dao.UserDao;
 import com.ltm.ck.service.UserService;
 
-
-@WebServlet("/LoginServlet")
-public class UserLoginServlet extends HttpServlet {
+@WebServlet("/AddUserServlet")
+public class AddUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 	
@@ -33,12 +32,15 @@ public class UserLoginServlet extends HttpServlet {
 			throw new ServletException(exc);
 		}
 	}
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect("register.jsp");
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(request, response, dataSource);
 		try {
-			userService.login();
-		} catch (ServletException | IOException | SQLException e) {
+			userService.registerUser();
+		} catch (IOException | ServletException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
